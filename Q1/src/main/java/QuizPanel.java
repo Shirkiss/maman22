@@ -17,9 +17,9 @@ public class QuizPanel extends JPanel {
 
     private List<ChoiceQuestion> quiz;
 
-    private JButton next;
+    private JButton finish;
+    private JButton startOver;
     private CardLayout cardLayout;
-    private int currentQuestion;
     private JPanel QuestionsPanel;
 
 
@@ -33,62 +33,59 @@ public class QuizPanel extends JPanel {
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentQuestion = -1;
-                nextQuestion();
+                showQuestions();
+                finish.setEnabled(true);
             }
         });
+
 
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.add(start);
         QuestionsPanel.add(mainPanel, "start");
 
-
-        for (int index = 0; index < quiz.size(); index++) {
-            ChoiceQuestion question = quiz.get(index);
-            QuestionPanel questionPanel = new QuestionPanel(question);
-            question.setButtonGroup(questionPanel.getButtonGroup());
-            QuestionsPanel.add(questionPanel, Integer.toString(index));
-        }
-//        QuestionsPanel.add(new JLabel("You have finished the Quiz"), "last");
-        currentQuestion = 0;
         cardLayout.show(QuestionsPanel, "Start");
 
         setLayout(new BorderLayout());
         add(QuestionsPanel);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        next = new JButton("Next");
-        buttonPanel.add(next);
-        next.setEnabled(false);
+        finish = new JButton("Finish");
+        startOver = new JButton("Start Over");
+        buttonPanel.add(finish);
+        buttonPanel.add(startOver);
+        finish.setEnabled(false);
+        startOver.setEnabled(false);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        next.addActionListener(new ActionListener() {
+        finish.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                nextQuestion();
+                finish();
+            }
+        });
+
+        startOver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showQuestions();
+                finish.setEnabled(true);
+                startOver.setEnabled(false);
             }
         });
 
     }
 
-    protected void nextQuestion() {
+    protected void finish() {
         // store the selected answer for each question
-        if (currentQuestion >= 0 && currentQuestion < quiz.size()) {
-            ChoiceQuestion currentQObject = quiz.get(currentQuestion);
-            if (currentQObject != null) {
-                currentQObject.setUserResponse(getSelected(currentQObject.getButtonGroup()));
-            }
-        }
-        currentQuestion++;
-        if (currentQuestion >= quiz.size()) {
-            //Show however many correct after last question.
-            // Just iterate over quiz list to check if answers are correct:
+        try {
             int totalCorrect = 0;
-            for (ChoiceQuestion q : quiz) {
-                if (q.isCorrect()) {
-                    totalCorrect++;
+            for (ChoiceQuestion currentQObject : quiz) {
+                if (currentQObject != null) {
+                    currentQObject.setUserResponse(getSelected(currentQObject.getButtonGroup()));
+                    if (currentQObject.isCorrect())
+                        totalCorrect++;
                 }
             }
 
@@ -96,15 +93,28 @@ public class QuizPanel extends JPanel {
             System.out.println("Total correct responses: " + totalCorrect);
             QuestionsPanel.add(new JLabel("<html>Your total correct answers: <br>" + totalCorrect + "/" + quiz.size() + "</html>"), "last");
             cardLayout.show(QuestionsPanel, "last");
-            next.setEnabled(false);
+            finish.setEnabled(false);
+            startOver.setEnabled(true);
 
 
-        } else {
-            cardLayout.show(QuestionsPanel, Integer.toString(currentQuestion));
-            next.setText("Next");
-            next.setEnabled(true);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Please answer all questions");
         }
+
     }
+
+    private void showQuestions() {
+        JPanel allQuestionPanel = new JPanel(new GridLayout(quiz.size(), 2));
+
+        for (ChoiceQuestion question : quiz) {
+            QuestionPanel questionPanel = new QuestionPanel(question);
+            question.setButtonGroup(questionPanel.getButtonGroup());
+            allQuestionPanel.add(questionPanel);
+        }
+        QuestionsPanel.add(allQuestionPanel, "questions");
+        cardLayout.show(QuestionsPanel, "questions");
+    }
+
 
     private String getSelected(ButtonGroup buttonGroup) {
         JRadioButton selectedRadio = null;
@@ -118,5 +128,6 @@ public class QuizPanel extends JPanel {
         }
         return selectedRadio.getText();
     }
+
 }
 

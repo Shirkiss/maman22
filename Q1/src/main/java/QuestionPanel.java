@@ -16,19 +16,30 @@ import java.util.List;
 
 public class QuestionPanel extends JPanel {
 
-    private ChoiceQuestion question;
+    protected ChoiceQuestion question;
+    private JPanel correctPanel;
 
-    private ButtonGroup buttonGroup = null;
 
-    public QuestionPanel(ChoiceQuestion question) {
+    protected ButtonGroup buttonGroup = null;
+    private CardLayout cardLayout;
+
+
+    protected QuestionPanel(ChoiceQuestion question) {
         this.question = question;
 
         setLayout(new BorderLayout());
 
         JLabel prompt = new JLabel("<html><b>" + question.getPrompt() + "</b></html>");
         prompt.setHorizontalAlignment(JLabel.LEFT);
-
         add(prompt, BorderLayout.NORTH);
+
+        cardLayout = new CardLayout();
+        correctPanel = new JPanel(cardLayout);
+
+        JLabel correct = new JLabel(""+ question.isCorrect());
+        correct.setHorizontalAlignment(JLabel.LEFT);
+        correctPanel.add(correct, "correct");
+
 
         JPanel guesses = new JPanel(new GridBagLayout());
         guesses.setBorder(new EmptyBorder(10,10,10,10));
@@ -38,7 +49,6 @@ public class QuestionPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
 
         List<String> options = new ArrayList<>(Arrays.asList(question.getOptions()));
-        //options.add(question.getCorrectAnswer());
         Collections.shuffle(options);
 
         ButtonGroup bg = new ButtonGroup();
@@ -52,17 +62,18 @@ public class QuestionPanel extends JPanel {
         this.buttonGroup = bg;
 
         add(guesses);
+
     }
 
-    public ButtonGroup getButtonGroup() {
+    protected ButtonGroup getButtonGroup() {
         return buttonGroup;
     }
 
-    public ChoiceQuestion getQuestion() {
+    protected ChoiceQuestion getQuestion() {
         return question;
     }
 
-    public class ActionHandler implements ActionListener {
+    protected class ActionHandler implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {

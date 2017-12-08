@@ -5,7 +5,8 @@ import javax.swing.*;
 /**
  * Created by shir.cohen on 12/8/2017.
  */
-public class ChoiceQuestion {
+
+class ChoiceQuestion {
 
     private final String prompt;
     private final String correctAnswer;
@@ -14,41 +15,41 @@ public class ChoiceQuestion {
 
     private String userResponse;
 
-    public ChoiceQuestion(String prompt, String correctAnswer, String... options) {
+    protected ChoiceQuestion(String prompt, String correctAnswer, String... options) {
         this.prompt = prompt;
         this.correctAnswer = correctAnswer;
         this.options = options;
     }
 
-    public void setButtonGroup(ButtonGroup buttonGroup) {
+    protected void setButtonGroup(ButtonGroup buttonGroup) {
         this.buttonGroup = buttonGroup;
     }
 
-    public ButtonGroup getButtonGroup() {
+    protected ButtonGroup getButtonGroup() {
         return this.buttonGroup;
     }
 
-    public String getPrompt() {
+    protected String getPrompt() {
         return prompt;
     }
 
-    public String getCorrectAnswer() {
+    protected String getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public String[] getOptions() {
+    protected String[] getOptions() {
         return options;
     }
 
-    public String getUserResponse() {
+    protected String getUserResponse() {
         return userResponse;
     }
 
-    public void setUserResponse(String response) {
+    protected void setUserResponse(String response) {
         userResponse = response;
     }
 
-    public boolean isCorrect() {
+    protected boolean isCorrect() {
         return getCorrectAnswer().equals(getUserResponse());
     }
 }

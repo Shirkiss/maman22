@@ -3,7 +3,10 @@ package main.java;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class Questionnaire {
 
@@ -44,6 +47,7 @@ public class Questionnaire {
         frame.add(new QuizPanel(quiz));
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.setSize(450,700);
         frame.setVisible(true);
 
 
