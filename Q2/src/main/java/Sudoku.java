@@ -2,7 +2,13 @@ package main.java;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 import javax.swing.*;
+
+
+
 /**
  * Created by shir.cohen on 12/9/2017.
  */
@@ -11,8 +17,8 @@ public class Sudoku extends JFrame {
     public static final int SUBGRID_SIZE = 3; // Size of the sub-grid
 
     public static final int CELL_SIZE = 60;   // Cell width/height in pixels
-    public static final int CANVAS_WIDTH  = CELL_SIZE * GRID_SIZE;
-    public static final int CANVAS_HEIGHT = CELL_SIZE * GRID_SIZE;
+    public static final int CANVAS_WIDTH = CELL_SIZE * GRID_SIZE;
+    public static final int CANVAS_HEIGHT = CELL_SIZE * GRID_SIZE ;
 
     public static final Color OPEN_CELL_BGCOLOR = Color.YELLOW;
     public static final Color OPEN_CELL_TEXT_YES = new Color(0, 255, 0);  // RGB
@@ -20,42 +26,29 @@ public class Sudoku extends JFrame {
     public static final Color CLOSED_CELL_BGCOLOR = new Color(240, 240, 240); // RGB
     public static final Color CLOSED_CELL_TEXT = Color.BLACK;
     public static final Font FONT_NUMBERS = new Font("Monospaced", Font.BOLD, 20);
+    public boolean gameStarted = false;
 
     private JTextField[][] tfCells = new JTextField[GRID_SIZE][GRID_SIZE];
-
-    private int[][] puzzle =
-            {{5, 3, 4, 6, 7, 8, 9, 1, 2},
-                    {6, 7, 2, 1, 9, 5, 3, 4, 8},
-                    {1, 9, 8, 3, 4, 2, 5, 6, 7},
-                    {8, 5, 9, 7, 6, 1, 4, 2, 3},
-                    {4, 2, 6, 8, 5, 3, 7, 9, 1},
-                    {7, 1, 3, 9, 2, 4, 8, 5, 6},
-                    {9, 6, 1, 5, 3, 7, 2, 8, 4},
-                    {2, 8, 7, 4, 1, 9, 6, 3, 5},
-                    {3, 4, 5, 2, 8, 6, 1, 7, 9}};
+    private JButton set;
+    private JButton clear;
 
 
-    private boolean[][] masks =
-            {{false, false, false, false, false, true, false, false, false},
-                    {false, false, false, false, false, false, false, false, true},
-                    {false, false, false, false, false, false, false, false, false},
-                    {false, false, false, false, false, false, false, false, false},
-                    {false, false, false, false, false, false, false, false, false},
-                    {false, false, false, false, false, false, false, false, false},
-                    {false, false, false, false, false, false, false, false, false},
-                    {false, false, false, false, false, false, false, false, false},
-                    {false, false, false, false, false, false, false, false, false}};
+    int[][] puzzle = new int[GRID_SIZE][GRID_SIZE];
+
+    Boolean[][] masks = new Boolean[GRID_SIZE][GRID_SIZE];
+
 
     public Sudoku() {
-        Container cp = getContentPane();
-        cp.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE));  // 9x9 GridLayout
+        BorderLayout layout = new BorderLayout(10,10);
+        setLayout(layout);
+        JPanel cp = new JPanel(new GridLayout(GRID_SIZE, GRID_SIZE));
         InputListener listener = new InputListener();
 
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
                 tfCells[row][col] = new JTextField(); // Allocate element of array
                 cp.add(tfCells[row][col]);            // ContentPane adds JTextField
-                if (masks[row][col]) {
+                if (masks[row][col] == null) {
                     tfCells[row][col].setText("");     // set to empty string
                     tfCells[row][col].setEditable(true);
                     tfCells[row][col].setBackground(OPEN_CELL_BGCOLOR);
@@ -73,7 +66,31 @@ public class Sudoku extends JFrame {
                 tfCells[row][col].setFont(FONT_NUMBERS);
             }
         }
+
         cp.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+
+        JPanel buttonsPanel = new JPanel(new GridBagLayout());
+
+        set = new JButton("Set");
+        set.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameStarted = true;
+            }
+        });
+
+        clear = new JButton("Clear");
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //something
+            }
+        });
+
+        buttonsPanel.add(set);
+        buttonsPanel.add(clear);
+        add(cp, BorderLayout.NORTH);
+        add(buttonsPanel, BorderLayout.SOUTH);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  // Handle window closing
         setTitle("Sudoku");
@@ -84,7 +101,6 @@ public class Sudoku extends JFrame {
         Sudoku frame = new Sudoku();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-//        frame.setSize(450,quiz.size()*140 + 200);
         frame.setVisible(true);
 
     }
@@ -99,7 +115,7 @@ public class Sudoku extends JFrame {
             int colSelected = -1;
 
             // Get the source object that fired the event
-            JTextField source = (JTextField)e.getSource();
+            JTextField source = (JTextField) e.getSource();
             // Scan JTextFileds for all rows and columns, and match with the source object
             boolean found = false;
             for (int row = 0; row < GRID_SIZE && !found; ++row) {
@@ -111,29 +127,65 @@ public class Sudoku extends JFrame {
                     }
                 }
             }
-
-            int input = Integer.parseInt(tfCells[rowSelected][colSelected].getText());
-            if (input == puzzle[rowSelected][colSelected])
-            {
-                tfCells[rowSelected][colSelected].setBackground(Color.GREEN);
-                masks[rowSelected][colSelected] = false;
-            } else {
-                tfCells[rowSelected][colSelected].setBackground(Color.RED);
-                masks[rowSelected][colSelected] = true;
-            }
-            boolean finish = true;
-            for (int row = 0; row < GRID_SIZE && finish; ++row) {
-                for (int col = 0; col < GRID_SIZE && finish; ++col) {
-                    if (masks[row][col] != false) {
-                        finish = false;
-                        break;
+            if (gameStarted){
+                int input = Integer.parseInt(tfCells[rowSelected][colSelected].getText());
+                if (input == puzzle[rowSelected][colSelected]) {
+                    tfCells[rowSelected][colSelected].setBackground(Color.GREEN);
+                    masks[rowSelected][colSelected] = false;
+                } else {
+                    tfCells[rowSelected][colSelected].setBackground(Color.RED);
+                    masks[rowSelected][colSelected] = true;
+                }
+                boolean finish = true;
+                for (int row = 0; row < GRID_SIZE && finish; ++row) {
+                    for (int col = 0; col < GRID_SIZE && finish; ++col) {
+                        if (masks[row][col]) {
+                            finish = false;
+                            break;
+                        }
                     }
                 }
+                if (finish)
+                    JOptionPane.showMessageDialog(null, "Congratulation!");
+            } else{
+                checkValidEntrance(rowSelected, colSelected);
             }
-            if (finish)
-                JOptionPane.showMessageDialog(null, "Congratulation!");
 
         }
+    }
+
+    public Boolean checkValidEntrance(int row, int col){
+        int input = Integer.parseInt(tfCells[row][col].getText());
+        if (input > 9 || input < 1)
+        {
+            JOptionPane.showMessageDialog(null, "please put only numbers between 1-9");
+            tfCells[row][col].setText("");
+        }
+        else {
+            int[] row_elements = new int[9];
+            int[] column_elements = new int[9];
+            System.arraycopy(puzzle[row], 0, row_elements, 0, 9);
+
+            for (int i = 0; i < 9; i++) {
+                if (i != col)
+                    column_elements[i] = puzzle[i][col];
+            }
+
+            if (IntStream.of(row_elements).anyMatch(x -> x == input)){
+                JOptionPane.showMessageDialog(null, "you should fill only once in a row");
+                tfCells[row][col].setText("");
+
+            } else if (IntStream.of(column_elements).anyMatch(x -> x == input))
+            {
+                JOptionPane.showMessageDialog(null, "you should fill only once in a column");
+                tfCells[row][col].setText("");
+            }
+            else {
+                puzzle[row][col] = input;
+            }
+
+        }
+        return true;
     }
 
 }
