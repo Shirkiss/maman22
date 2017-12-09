@@ -15,8 +15,8 @@
       <file leaf-file-name="Sudoku.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Sudoku.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="45" column="66" lean-forward="true" selection-start-line="45" selection-start-column="66" selection-end-line="45" selection-end-column="66" />
+            <state relative-caret-position="176">
+              <caret line="194" column="0" lean-forward="false" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -42,11 +42,21 @@
       <find>setla</find>
       <find>tf</find>
       <find>masks[row][col]</find>
-      <find>set</find>
       <find>tfCells[row][col]</find>
       <find>clear</find>
       <find>row</find>
       <find>SUBGRID_SIZE</find>
+      <find>FONT</find>
+      <find>grid</find>
+      <find>minisquareDimension</find>
+      <find>dimension</find>
+      <find>font</find>
+      <find>setBo</find>
+      <find>setBoard</find>
+      <find>set</find>
+      <find>puzzle</find>
+      <find>checkValidEntrance</find>
+      <find>puzzle[row][col]</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -379,24 +389,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>148</line>
+          <line>187</line>
           <properties />
-          <option name="timeStamp" value="49" />
+          <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>153</line>
+          <line>243</line>
           <properties />
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>152</line>
-          <properties />
-          <option name="timeStamp" value="51" />
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="52" />
+      <option name="time" value="57" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -445,8 +449,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Sudoku.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="45" column="66" lean-forward="true" selection-start-line="45" selection-start-column="66" selection-end-line="45" selection-end-column="66" />
+        <state relative-caret-position="176">
+          <caret line="194" column="0" lean-forward="false" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

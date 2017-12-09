@@ -1,9 +1,12 @@
 package main.java;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 
@@ -12,77 +15,132 @@ import java.util.stream.IntStream;
  */
 public class Sudoku extends JFrame {
     private static final int GRID_SIZE = 9;    // Size of the board
+    public static final int SUBGRID_SIZE = 3; // Size of the sub-grid
 
     private static final int CELL_SIZE = 60;   // Cell width/height in pixels
-    private static final int CANVAS_WIDTH = CELL_SIZE * GRID_SIZE;
-    private static final int CANVAS_HEIGHT = CELL_SIZE * GRID_SIZE;
     private static final Color OPEN_CELL_BGCOLOR = Color.YELLOW;
     private static final Color CLOSED_CELL_BGCOLOR = new Color(240, 240, 240); // RGB
     private static final Color CLOSED_CELL_TEXT = Color.BLACK;
     private static final Font FONT_NUMBERS = new Font("Monospaced", Font.BOLD, 20);
     private boolean gameStarted = false;
+    private static final Font FONT = new Font("Verdana",
+            Font.CENTER_BASELINE,
+            20);
+    private final JButton setButton;
+    private final JButton clearButton;
 
-    private JTextField[][] tfCells = new JTextField[GRID_SIZE][GRID_SIZE];
-    private JButton set;
+
+
+    private JTextField[][] tfCells;
+    private final Map<JTextField, Point> mapFieldToCoordinates =
+            new HashMap<>();
+
 
 
     private int[][] puzzle = new int[GRID_SIZE][GRID_SIZE];
 
     private boolean[][] masks = new boolean[GRID_SIZE][GRID_SIZE];
 
+    private final int dimension;
+    private final JPanel gridPanel;
+    private final JPanel buttonPanel;
+    private final JPanel[][] minisquarePanels;
+
+
+
+
 
     private Sudoku(String title) {
         super(title);
-        BorderLayout layout = new BorderLayout(10, 10);
-        setLayout(layout);
-        JPanel cp = new JPanel(new GridLayout(GRID_SIZE, GRID_SIZE));
+
+        this.dimension = GRID_SIZE;
+        this.tfCells = new JTextField[dimension][dimension];
+
         InputListener listener = new InputListener();
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+        Dimension fieldDimension = new Dimension(60, 60);
 
-        for (int row = 0; row < GRID_SIZE; ++row) {
-            for (int col = 0; col < GRID_SIZE; ++col) {
-                tfCells[row][col] = new JTextField(); // Allocate element of array
-                cp.add(tfCells[row][col]);            // ContentPane adds JTextField
 
+        for (int row = 0; row < dimension; ++row) {
+            for (int col = 0; col < dimension; ++col) {
+                tfCells[row][col] = new JTextField();
+                tfCells[row][col].addActionListener(listener);
                 tfCells[row][col].setText("");     // set to empty string
                 tfCells[row][col].setEditable(true);
                 tfCells[row][col].setBackground(OPEN_CELL_BGCOLOR);
-
-                // Add ActionEvent listener to process the input
-                tfCells[row][col].addActionListener(listener);
-
+                mapFieldToCoordinates.put( tfCells[row][col], new Point(row, col));
                 // Beautify all the cells
+                tfCells[row][col].setBorder(border);
+                tfCells[row][col].setFont(FONT);
+                tfCells[row][col].setPreferredSize(fieldDimension);
                 tfCells[row][col].setHorizontalAlignment(JTextField.CENTER);
-                tfCells[row][col].setFont(FONT_NUMBERS);
+
+            }
+
+        }
+
+        this.gridPanel   = new JPanel();
+
+
+
+        int minisquareDimension = SUBGRID_SIZE;
+        this.gridPanel.setLayout(new GridLayout(minisquareDimension,
+                minisquareDimension));
+
+        this.minisquarePanels = new JPanel[minisquareDimension]
+                [minisquareDimension];
+
+        Border minisquareBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
+
+        for (int y = 0; y < minisquareDimension; ++y) {
+            for (int x = 0; x < minisquareDimension; ++x) {
+                JPanel panel = new JPanel();
+                panel.setLayout(new GridLayout(minisquareDimension,
+                        minisquareDimension));
+                panel.setBorder(minisquareBorder);
+                minisquarePanels[y][x] = panel;
+                gridPanel.add(panel);
             }
         }
 
-        cp.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+        for (int y = 0; y < dimension; ++y) {
+            for (int x = 0; x < dimension; ++x) {
+                int minisquareX = x / minisquareDimension;
+                int minisquareY = y / minisquareDimension;
 
-        JPanel buttonsPanel = new JPanel(new GridBagLayout());
+                minisquarePanels[minisquareY][minisquareX].add(tfCells[y][x]);
+            }
+        }
 
-        set = new JButton("Set");
-        set.addActionListener(new ActionListener() {
+        this.gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,
+                2));
+
+        this.buttonPanel = new JPanel(new GridBagLayout());
+
+        this.setButton = new JButton("Set");
+        setButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setBoard();
                 gameStarted = true;
-                set.setEnabled(false);
+                setButton.setEnabled(false);
             }
         });
 
-        JButton clear = new JButton("Clear");
-        clear.addActionListener(new ActionListener() {
+        this.clearButton = new JButton("Clear");
+        clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clearBoard();
-                set.setEnabled(true);
+                setButton.setEnabled(true);
             }
         });
 
-        buttonsPanel.add(set);
-        buttonsPanel.add(clear);
-        add(cp, BorderLayout.NORTH);
-        add(buttonsPanel, BorderLayout.SOUTH);
+        this.buttonPanel.add(setButton);
+        this.buttonPanel.add(clearButton);
+        this.setLayout(new BorderLayout());
+        this.add(gridPanel,   BorderLayout.NORTH);
+        this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public static void main(String[] args) {
@@ -233,6 +291,7 @@ public class Sudoku extends JFrame {
         }
         puzzle = new int[GRID_SIZE][GRID_SIZE];
         masks = new boolean[GRID_SIZE][GRID_SIZE];
+        gameStarted = false;
 
     }
 
