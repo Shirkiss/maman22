@@ -17,18 +17,14 @@ public class Sudoku extends JFrame {
     private static final int GRID_SIZE = 9;    // Size of the board
     public static final int SUBGRID_SIZE = 3; // Size of the sub-grid
 
-    private static final int CELL_SIZE = 60;   // Cell width/height in pixels
     private static final Color OPEN_CELL_BGCOLOR = Color.YELLOW;
     private static final Color CLOSED_CELL_BGCOLOR = new Color(240, 240, 240); // RGB
     private static final Color CLOSED_CELL_TEXT = Color.BLACK;
-    private static final Font FONT_NUMBERS = new Font("Monospaced", Font.BOLD, 20);
     private boolean gameStarted = false;
     private static final Font FONT = new Font("Verdana",
-            Font.CENTER_BASELINE,
+            Font.BOLD,
             20);
     private final JButton setButton;
-    private final JButton clearButton;
-
 
 
     private JTextField[][] tfCells;
@@ -36,24 +32,15 @@ public class Sudoku extends JFrame {
             new HashMap<>();
 
 
-
     private int[][] puzzle = new int[GRID_SIZE][GRID_SIZE];
 
     private boolean[][] masks = new boolean[GRID_SIZE][GRID_SIZE];
-
-    private final int dimension;
-    private final JPanel gridPanel;
-    private final JPanel buttonPanel;
-    private final JPanel[][] minisquarePanels;
-
-
-
 
 
     private Sudoku(String title) {
         super(title);
 
-        this.dimension = GRID_SIZE;
+        int dimension = GRID_SIZE;
         this.tfCells = new JTextField[dimension][dimension];
 
         InputListener listener = new InputListener();
@@ -68,7 +55,7 @@ public class Sudoku extends JFrame {
                 tfCells[row][col].setText("");     // set to empty string
                 tfCells[row][col].setEditable(true);
                 tfCells[row][col].setBackground(OPEN_CELL_BGCOLOR);
-                mapFieldToCoordinates.put( tfCells[row][col], new Point(row, col));
+                mapFieldToCoordinates.put(tfCells[row][col], new Point(row, col));
                 // Beautify all the cells
                 tfCells[row][col].setBorder(border);
                 tfCells[row][col].setFont(FONT);
@@ -79,15 +66,12 @@ public class Sudoku extends JFrame {
 
         }
 
-        this.gridPanel   = new JPanel();
-
-
-
+        JPanel gridPanel = new JPanel();
         int minisquareDimension = SUBGRID_SIZE;
-        this.gridPanel.setLayout(new GridLayout(minisquareDimension,
+        gridPanel.setLayout(new GridLayout(minisquareDimension,
                 minisquareDimension));
 
-        this.minisquarePanels = new JPanel[minisquareDimension]
+        JPanel[][] minisquarePanels = new JPanel[minisquareDimension]
                 [minisquareDimension];
 
         Border minisquareBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -112,10 +96,10 @@ public class Sudoku extends JFrame {
             }
         }
 
-        this.gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,
+        gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,
                 2));
 
-        this.buttonPanel = new JPanel(new GridBagLayout());
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
 
         this.setButton = new JButton("Set");
         setButton.addActionListener(new ActionListener() {
@@ -127,7 +111,7 @@ public class Sudoku extends JFrame {
             }
         });
 
-        this.clearButton = new JButton("Clear");
+        JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,10 +120,10 @@ public class Sudoku extends JFrame {
             }
         });
 
-        this.buttonPanel.add(setButton);
-        this.buttonPanel.add(clearButton);
+        buttonPanel.add(setButton);
+        buttonPanel.add(clearButton);
         this.setLayout(new BorderLayout());
-        this.add(gridPanel,   BorderLayout.NORTH);
+        this.add(gridPanel, BorderLayout.NORTH);
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -295,7 +279,7 @@ public class Sudoku extends JFrame {
 
     }
 
-    private void checkFinished(){
+    private void checkFinished() {
         //go over all masks elements and look if there is still false inside
         boolean finish = true;
         for (int row = 0; row < GRID_SIZE && finish; ++row) {
