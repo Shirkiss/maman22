@@ -51,7 +51,6 @@ public class Sudoku extends JFrame {
         gridPanel.setLayout(new GridLayout(SUBGRID_SIZE, SUBGRID_SIZE));
 
         JPanel[][] minisquarePanels = new JPanel[SUBGRID_SIZE][SUBGRID_SIZE];
-
         Border minisquareBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
 
         //create mini square Panels

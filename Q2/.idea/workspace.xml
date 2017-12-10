@@ -15,8 +15,8 @@
       <file leaf-file-name="Sudoku.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Sudoku.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1">
-              <caret line="42" column="27" lean-forward="false" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="27" />
+            <state relative-caret-position="176">
+              <caret line="254" column="31" lean-forward="false" selection-start-line="254" selection-start-column="21" selection-end-line="254" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -41,7 +41,6 @@
       <find>border</find>
       <find>setla</find>
       <find>tf</find>
-      <find>masks[row][col]</find>
       <find>tfCells[row][col]</find>
       <find>clear</find>
       <find>row</find>
@@ -60,6 +59,9 @@
       <find>dimension</find>
       <find>minis</find>
       <find>bu</find>
+      <find>masks[row][col]</find>
+      <find>= false</find>
+      <find>masks[row]</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -392,13 +394,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>147</line>
+          <line>146</line>
           <properties />
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>201</line>
+          <line>200</line>
           <properties />
           <option name="timeStamp" value="54" />
         </line-breakpoint>
@@ -452,8 +454,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Sudoku.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1">
-          <caret line="42" column="27" lean-forward="false" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="27" />
+        <state relative-caret-position="176">
+          <caret line="254" column="31" lean-forward="false" selection-start-line="254" selection-start-column="21" selection-end-line="254" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
