@@ -15,8 +15,8 @@
       <file leaf-file-name="Sudoku.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Sudoku.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
-              <caret line="293" column="22" lean-forward="false" selection-start-line="293" selection-start-column="22" selection-end-line="293" selection-end-column="22" />
+            <state relative-caret-position="1">
+              <caret line="42" column="27" lean-forward="false" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -49,7 +49,6 @@
       <find>FONT</find>
       <find>grid</find>
       <find>minisquareDimension</find>
-      <find>dimension</find>
       <find>font</find>
       <find>setBo</find>
       <find>setBoard</find>
@@ -57,6 +56,10 @@
       <find>puzzle</find>
       <find>checkValidEntrance</find>
       <find>puzzle[row][col]</find>
+      <find>mapFieldToCoordinates</find>
+      <find>dimension</find>
+      <find>minis</find>
+      <find>bu</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -389,13 +392,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>171</line>
+          <line>147</line>
           <properties />
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Sudoku.java</url>
-          <line>227</line>
+          <line>201</line>
           <properties />
           <option name="timeStamp" value="54" />
         </line-breakpoint>
@@ -449,8 +452,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Sudoku.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="293" column="22" lean-forward="false" selection-start-line="293" selection-start-column="22" selection-end-line="293" selection-end-column="22" />
+        <state relative-caret-position="1">
+          <caret line="42" column="27" lean-forward="false" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
