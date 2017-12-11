@@ -37,10 +37,8 @@ public class Sudoku extends JFrame {
                 for (int block_col = block % 3 * 3; block_col < block % 3 * 3 + 3; block_col++) {
                     SudokuTextField field = new SudokuTextField();
                     field.addActionListener(listener);
-                    field.setRow(block_row);
                     field.setColor(color);
-                    field.setColumn(block_col);
-                    field.setBlock();
+                    field.setBlock(block_row, block_col);
                     tfCells[block_row][block_col] = field;
                     miniSquarePanel.add(field);
                 }

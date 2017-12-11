@@ -25,7 +25,9 @@ class SudokuTextField extends JTextField {
         this.setHorizontalAlignment(JTextField.CENTER);
     }
 
-    void setBlock(){
+    void setBlock(int row, int column){
+        this.row = row;
+        this.column = column;
         int block_horiz, block_ver;
         if (this.row / 3 < 1)
             block_ver = 0;
@@ -40,7 +42,6 @@ class SudokuTextField extends JTextField {
         else
             block_horiz = 2;
         this.blockNumber = block_horiz + block_ver * 3;
-
     }
 
     void setRow(int rowNumber){
