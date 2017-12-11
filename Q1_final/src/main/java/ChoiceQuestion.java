@@ -49,7 +49,7 @@ class ChoiceQuestion {
         userResponse = response;
     }
 
-    boolean isCorrect() {
-        return getCorrectAnswer().equals(getUserResponse());
+    boolean isCorrect(String answer) {
+        return getCorrectAnswer().equals(answer);
     }
 }

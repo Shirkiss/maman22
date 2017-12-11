@@ -97,9 +97,8 @@ class QuizFrame extends JFrame {
             int totalCorrect = 0;
             for (Component currentPanel : questionsPanel.getComponents()) {
                 if (currentPanel instanceof QuestionPanel) {
-                    ((QuestionPanel) currentPanel).getQuestion().setUserResponse(getSelected(((QuestionPanel) currentPanel).getQuestion().getButtonGroup()));
                     // mark correct answers in green and incorrect on red
-                    if (((QuestionPanel) currentPanel).getQuestion().isCorrect()) {
+                    if (((QuestionPanel) currentPanel).getQuestion().isCorrect(getSelected(((QuestionPanel) currentPanel).getQuestion().getButtonGroup()))) {
                         currentPanel.setBackground(Color.green);
                         totalCorrect++;
                     } else {
