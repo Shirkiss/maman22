@@ -166,7 +166,6 @@ public class Sudoku extends JFrame {
         return true;
     }
 
-
     private void setBoard() {
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {

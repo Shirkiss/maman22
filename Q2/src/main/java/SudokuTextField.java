@@ -10,8 +10,6 @@ import java.awt.*;
  */
 public class SudokuTextField extends JTextField {
     private static final Font FONT = new Font("Verdana", Font.BOLD, 20);
-    private Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-    private Dimension fieldDimension = new Dimension(60, 60);
     private int blockNumber, row, column, value;
 
     public SudokuTextField(){
@@ -19,8 +17,10 @@ public class SudokuTextField extends JTextField {
         this.setText("");    // set to empty string
         this.setEditable(true);
         // Beautify all the cells
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
         this.setBorder(border);
         this.setFont(FONT);
+        Dimension fieldDimension = new Dimension(60, 60);
         this.setPreferredSize(fieldDimension);
         this.setHorizontalAlignment(JTextField.CENTER);
     }
