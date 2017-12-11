@@ -29,7 +29,7 @@ public class Sudoku extends JFrame {
         InputListener listener = new InputListener();
         JPanel gridPanel = new JPanel();
 
-        // create miniSquarePanel and put inside 9 SudokuTextField.
+        // create 9 miniSquarePanel and put inside each 9 SudokuTextField.
         for (int block = 0; block < GRID_SIZE; ++block) {
             JPanel miniSquarePanel = new MiniSquarePanel(SUBGRID_SIZE);
             Color color = (block % 2 == 0) ? ODD_BLOCK : EVEN_BLOCK;
@@ -52,6 +52,7 @@ public class Sudoku extends JFrame {
         gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         JPanel buttonPanel = new JPanel(new GridBagLayout());
 
+        // Create set button
         this.setButton = new JButton("Set");
         setButton.addActionListener(e -> {
             setBoard();
@@ -59,6 +60,7 @@ public class Sudoku extends JFrame {
             setButton.setEnabled(false);
         });
 
+        // Create clear button
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(e -> {
             clearBoard();
@@ -88,24 +90,25 @@ public class Sudoku extends JFrame {
             int sourceRow = ((SudokuTextField) e.getSource()).getRow();
             int sourceColumn = ((SudokuTextField) e.getSource()).getColumn();
 
+            // Check if entrance is valid
             if (checkValidEntrance(sourceRow, sourceColumn)) {
-                if (puzzle[sourceRow][sourceColumn] == 0) {
+                // If the field was empty, decrease the leftCounter
+                if (puzzle[sourceRow][sourceColumn] == 0)
                     leftCounter--;
-                }
                 if (gameStarted)
                     tfCells[sourceRow][sourceColumn].setBackground(Color.GREEN);
+                // Check if the game finished
                 if (leftCounter == 0)
                     JOptionPane.showMessageDialog(null, "Congratulation!");
                 puzzle[sourceRow][sourceColumn] = ((SudokuTextField) tfCells[sourceRow][sourceColumn]).getInteger();
-
             } else {
+                // If the field was not empty and was replaced with invalid input increase the leftCounter
                 if (puzzle[sourceRow][sourceColumn] != 0)
                     leftCounter++;
                 tfCells[sourceRow][sourceColumn].setText("");
                 puzzle[sourceRow][sourceColumn] = 0;
                 if (gameStarted)
                     tfCells[sourceRow][sourceColumn].setBackground(Color.RED);
-                //check if game finished
             }
         }
     }
@@ -160,7 +163,7 @@ public class Sudoku extends JFrame {
                 }
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Please put only numbers");
+            JOptionPane.showMessageDialog(null, "Please enter only numbers!");
             return false;
         }
         return true;
