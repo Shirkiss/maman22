@@ -8,11 +8,11 @@ import java.awt.*;
 /**
  * Created by shir.cohen on 12/10/2017.
  */
-public class SudokuTextField extends JTextField {
+class SudokuTextField extends JTextField {
     private static final Font FONT = new Font("Verdana", Font.BOLD, 20);
     private int blockNumber, row, column, value;
 
-    public SudokuTextField(){
+    SudokuTextField(){
         super();
         this.setText("");    // set to empty string
         this.setEditable(true);
@@ -25,7 +25,7 @@ public class SudokuTextField extends JTextField {
         this.setHorizontalAlignment(JTextField.CENTER);
     }
 
-    public void setBlock(){
+    void setBlock(){
         int block_horiz, block_ver;
         if (this.row / 3 < 1)
             block_ver = 0;
@@ -43,34 +43,34 @@ public class SudokuTextField extends JTextField {
 
     }
 
-    public void setRow(int rowNumber){
+    void setRow(int rowNumber){
         this.row = rowNumber;
     }
 
-    public void setColumn(int columnNumber){
+    void setColumn(int columnNumber){
         this.column = columnNumber;
     }
 
-    public int getRow(){
+    int getRow(){
         return row;
     }
 
-    public int getColumn(){
+    int getColumn(){
         return column;
     }
 
-    public int getBlock(){
+    int getBlock(){
         return blockNumber;
     }
 
-    public void setInteger(int input){
+    void setInteger(int input){
         this.value = input;
     }
-    public int getInteger(){
+    int getInteger(){
         return value;
     }
 
-    public void setColor(Color color){
+    void setColor(Color color){
         this.setBackground(color);
     }
 

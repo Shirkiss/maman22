@@ -7,9 +7,9 @@ import java.awt.*;
 /**
  * Created by shir.cohen on 12/10/2017.
  */
-public class MiniSquarePanel extends JPanel {
+class MiniSquarePanel extends JPanel {
 
-    public MiniSquarePanel(int size){
+    MiniSquarePanel(int size){
         super();
         this.setLayout(new GridLayout(size, size));
         Border minisquareBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
