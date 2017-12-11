@@ -52,7 +52,6 @@ class QuizFrame extends JFrame {
 
         //adding the quiz panel to the frame
         add(quizPanel);
-
     }
 
     private void showQuestions() {
