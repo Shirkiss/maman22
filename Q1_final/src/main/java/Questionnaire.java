@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Questionnaire.java
+ * Purpose: Create a frame with questions in it
+ *
+ * @author Shir Cohen
+ */
 public class Questionnaire {
 
     public static void main(String[] args) {
@@ -18,13 +24,15 @@ public class Questionnaire {
         QuizFrame frame = new QuizFrame(quiz);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(450,quiz.size()*140 + 200);
         frame.setVisible(true);
     }
 
-
-    // read records from file and display only records of appropriate type
-
+    /**
+     * Get a file path and create a list of ChoiceQuestion extracted from the file
+     *
+     * @param path A pathname string for the questions file
+     * @return A list of ChoiceQuestion extracted from the file
+     */
     private static List<ChoiceQuestion> getQuestions(String path)
     {
         List<ChoiceQuestion> questions = new ArrayList<>();
@@ -49,7 +57,6 @@ public class Questionnaire {
             System.exit(1);
         }
         return questions;
-
     }
 
-} // end class Questionnaire
+}

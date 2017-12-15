@@ -6,15 +6,18 @@ import java.awt.*;
 
 
 /**
- * Created by shir.cohen on 12/10/2017.
+ * MiniSquarePanel.java
+ * A Sudoku text field
+ *
+ * @author Shir Cohen
  */
 class SudokuTextField extends JTextField {
     private static final Font FONT = new Font("Verdana", Font.BOLD, 20);
     private int blockNumber, row, column, value;
 
-    SudokuTextField(){
+    SudokuTextField() {
         super();
-        this.setText("");    // set to empty string
+        this.clearText();    // set to empty string
         this.setEditable(true);
         // Beautify all the cells
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
@@ -25,7 +28,14 @@ class SudokuTextField extends JTextField {
         this.setHorizontalAlignment(JTextField.CENTER);
     }
 
-    void setBlock(int row, int column){
+    /**
+     * Get the block number of a Sudoku text field
+     *
+     * @param row the row of the field that need to be checked
+     * @param column the column of the field that need to be checked.
+     * @return the block number that the field is in
+     */
+    void setBlock(int row, int column) {
         this.row = row;
         this.column = column;
         int block_horiz, block_ver;
@@ -44,34 +54,39 @@ class SudokuTextField extends JTextField {
         this.blockNumber = block_horiz + block_ver * 3;
     }
 
-    void setRow(int rowNumber){
+    void setRow(int rowNumber) {
         this.row = rowNumber;
     }
 
-    void setColumn(int columnNumber){
+    void setColumn(int columnNumber) {
         this.column = columnNumber;
     }
 
-    int getRow(){
+    int getRow() {
         return row;
     }
 
-    int getColumn(){
+    int getColumn() {
         return column;
     }
 
-    int getBlock(){
+    int getBlock() {
         return blockNumber;
     }
 
-    void setInteger(int input){
+    void setInteger(int input) {
         this.value = input;
     }
-    int getInteger(){
+
+    int getInteger() {
         return value;
     }
 
-    void setColor(Color color){
+    void clearText() {
+        this.setText("");
+    }
+
+    void setColor(Color color) {
         this.setBackground(color);
     }
 

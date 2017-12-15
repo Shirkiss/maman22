@@ -1,11 +1,12 @@
 package main.java;
 import javax.swing.*;
 
-
 /**
- * Created by shir.cohen on 12/8/2017.
+ * ChoiceQuestion.java
+ * Purpose: Create a choice question object
+ *
+ * @author Shir Cohen
  */
-
 class ChoiceQuestion {
 
     private final String prompt;

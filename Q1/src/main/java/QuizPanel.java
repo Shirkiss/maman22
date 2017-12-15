@@ -1,9 +1,5 @@
 package main.java;
 
-/**
- * Created by shir.cohen on 12/8/2017.
- */
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -12,33 +8,32 @@ import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.List;
 
-
-public class QuizPanel extends JPanel {
+/**
+ * QuizPanel.java
+ * Purpose: Create a panel with questions from exam.txt file
+ *
+ * @author Shir Cohen
+ */
+class QuizPanel extends JPanel {
 
     private List<ChoiceQuestion> quiz;
-
     private JButton finish;
     private JButton startOver;
     private CardLayout cardLayout;
     private JPanel QuestionsPanel;
 
 
-    public QuizPanel(List<ChoiceQuestion> quiz) {
+    QuizPanel(List<ChoiceQuestion> quiz) {
         this.quiz = quiz;
         cardLayout = new CardLayout();
         QuestionsPanel = new JPanel(cardLayout);
         QuestionsPanel.setBorder(new EmptyBorder(40, 45, 40, 45));
 
         JButton start = new JButton("Start");
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showQuestions();
-                finish.setEnabled(true);
-            }
+        start.addActionListener(e -> {
+            showQuestions();
+            finish.setEnabled(true);
         });
-
-
 
         JPanel mainPanel = new JPanel(new GridBagLayout());
         mainPanel.add(start);
@@ -77,7 +72,7 @@ public class QuizPanel extends JPanel {
 
     }
 
-    protected void finish() {
+    private void finish() {
         // store the selected answer for each question
         try {
             int totalCorrect = 0;
@@ -105,13 +100,14 @@ public class QuizPanel extends JPanel {
 
     private void showQuestions() {
         JPanel allQuestionPanel = new JPanel(new GridLayout(quiz.size(), 2));
-
+        JScrollPane scrollPane = new JScrollPane(allQuestionPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         for (ChoiceQuestion question : quiz) {
             QuestionPanel questionPanel = new QuestionPanel(question);
             question.setButtonGroup(questionPanel.getButtonGroup());
             allQuestionPanel.add(questionPanel);
         }
-        QuestionsPanel.add(allQuestionPanel, "questions");
+        QuestionsPanel.add(scrollPane, "questions");
         cardLayout.show(QuestionsPanel, "questions");
     }
 

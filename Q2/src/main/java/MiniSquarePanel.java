@@ -5,7 +5,10 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 /**
- * Created by shir.cohen on 12/10/2017.
+ * MiniSquarePanel.java
+ * A 3*3 square container.
+ *
+ * @author Shir Cohen
  */
 class MiniSquarePanel extends JPanel {
 

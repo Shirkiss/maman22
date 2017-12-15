@@ -13,8 +13,13 @@ None of the answers above
 100
 400
 200
-what is your name?
-shir
-bla
-bla
-fdf
+4+4 = ?
+8
+4
+5
+2
+7+3 = ?
+10
+5
+4
+11

@@ -6,9 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
 
-
 /**
- * Created by shir.cohen on 12/9/2017.
+ * Sudoku.java
+ * Purpose: Let's the user set sudoku board and to solve it
+ *
+ * @author Shir Cohen
  */
 public class Sudoku extends JFrame {
     private static final int GRID_SIZE = 9;    // Size of the board
@@ -18,14 +20,14 @@ public class Sudoku extends JFrame {
     private static final Color EVEN_BLOCK = new Color(114, 114, 114); // RGB
     private boolean gameStarted = false;
     private final JButton setButton;
-    private JTextField[][] tfCells;
+    private SudokuTextField[][] tfCells;
     private int[][] puzzle = new int[GRID_SIZE][GRID_SIZE];
     private int leftCounter = GRID_SIZE * GRID_SIZE;
 
 
     private Sudoku(String title) {
         super(title);
-        this.tfCells = new JTextField[GRID_SIZE][GRID_SIZE];
+        this.tfCells = new SudokuTextField[GRID_SIZE][GRID_SIZE];
         InputListener listener = new InputListener();
         JPanel gridPanel = new JPanel();
 
@@ -45,7 +47,6 @@ public class Sudoku extends JFrame {
             }
             gridPanel.add(miniSquarePanel);
         }
-
         gridPanel.setLayout(new GridLayout(0, SUBGRID_SIZE));
         gridPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         JPanel buttonPanel = new JPanel(new GridBagLayout());
@@ -98,12 +99,12 @@ public class Sudoku extends JFrame {
                 // Check if the game finished
                 if (leftCounter == 0)
                     JOptionPane.showMessageDialog(null, "Congratulation!");
-                puzzle[sourceRow][sourceColumn] = ((SudokuTextField) tfCells[sourceRow][sourceColumn]).getInteger();
+                puzzle[sourceRow][sourceColumn] = (tfCells[sourceRow][sourceColumn]).getInteger();
             } else {
                 // If the field was not empty and was replaced with invalid input increase the leftCounter
                 if (puzzle[sourceRow][sourceColumn] != 0)
                     leftCounter++;
-                tfCells[sourceRow][sourceColumn].setText("");
+                tfCells[sourceRow][sourceColumn].clearText();
                 puzzle[sourceRow][sourceColumn] = 0;
                 if (gameStarted)
                     tfCells[sourceRow][sourceColumn].setBackground(Color.RED);
@@ -111,17 +112,27 @@ public class Sudoku extends JFrame {
         }
     }
 
+    /**
+     * Check if the input the user enter is valid
+     *
+     * @param row the row of the field that need to be checked
+     * @param col the column of the field that need to be checked.
+     * @return true id the input is valid, false otherwise
+     */
     private Boolean checkValidEntrance(int row, int col) {
+        // catch if the input is not an integer
         try {
+            // get the value of the field
             int input = Integer.parseInt(tfCells[row][col].getText());
+            // check for valid range
             if (input > 9 || input < 1) {
                 JOptionPane.showMessageDialog(null, "please put only numbers between 1-9");
                 //clear cell content
-                tfCells[row][col].setText("");
+                tfCells[row][col].clearText();
             } else {
                 int[] row_elements = new int[9];
                 int[] column_elements = new int[9];
-                int[] box_elements = new int[9];
+                int[] block_elements = new int[9];
 
                 //copy all element in a specific row except for the current cell
                 System.arraycopy(puzzle[row], 0, row_elements, 0, 9);
@@ -133,31 +144,34 @@ public class Sudoku extends JFrame {
                         column_elements[column_row] = puzzle[column_row][col];
                 }
                 //find the block that the cell is in
-                int block = ((SudokuTextField) tfCells[row][col]).getBlock();
+                int block = (tfCells[row][col]).getBlock();
 
                 //copy all element in a specific block except for the current cell
                 int index = 0;
                 for (int block_row = block / 3 * 3; block_row < block / 3 * 3 + 3; block_row++) {
                     for (int block_col = block % 3 * 3; block_col < block % 3 * 3 + 3; block_col++) {
                         if (block_row != row || block_col != col) {
-                            box_elements[index] = puzzle[block_row][block_col];
+                            block_elements[index] = puzzle[block_row][block_col];
                             index++;
                         }
                     }
                 }
+                // check for duplicate number in the row
                 if (IntStream.of(row_elements).anyMatch(x -> x == input)) {
                     JOptionPane.showMessageDialog(null, "You shouldn't fill the same number twice in a row");
                     return false;
 
+                    // check for duplicate number in the column
                 } else if (IntStream.of(column_elements).anyMatch(x -> x == input)) {
                     JOptionPane.showMessageDialog(null, "You shouldn't fill the same number twice in a column");
                     return false;
 
-                } else if (IntStream.of(box_elements).anyMatch(x -> x == input)) {
+                    // check for duplicate number in the block
+                } else if (IntStream.of(block_elements).anyMatch(x -> x == input)) {
                     JOptionPane.showMessageDialog(null, "You shouldn't fill the same number twice in a block");
                     return false;
                 } else {
-                    ((SudokuTextField) tfCells[row][col]).setInteger(input);
+                    (tfCells[row][col]).setInteger(input);
                 }
             }
         } catch (NumberFormatException e) {
@@ -167,11 +181,14 @@ public class Sudoku extends JFrame {
         return true;
     }
 
+    /**
+     * Disabling the option to edit the existing numbers on the board
+     * and changing the background color for the user convenience
+     */
     private void setBoard() {
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
                 if (puzzle[row][col] != 0) {
-                    tfCells[row][col].setText(puzzle[row][col] + "");
                     tfCells[row][col].setEditable(false);
                     tfCells[row][col].setBackground(CLOSED_CELL_BGCOLOR);
                 }
@@ -179,14 +196,17 @@ public class Sudoku extends JFrame {
         }
     }
 
+    /**
+     * Clearing all the numbers from the board
+     */
     private void clearBoard() {
         for (int block = 0; block < GRID_SIZE; ++block) {
             Color color = (block % 2 == 0) ? ODD_BLOCK : EVEN_BLOCK;
             for (int block_row = block / 3 * 3; block_row < block / 3 * 3 + 3; block_row++) {
                 for (int block_col = block % 3 * 3; block_col < block % 3 * 3 + 3; block_col++) {
-                    tfCells[block_row][block_col].setText("");     // set to empty string
+                    tfCells[block_row][block_col].clearText();     // set to empty string
                     tfCells[block_row][block_col].setEditable(true);
-                    ((SudokuTextField) tfCells[block_row][block_col]).setColor(color);
+                    (tfCells[block_row][block_col]).setColor(color);
                 }
             }
         }
@@ -195,5 +215,3 @@ public class Sudoku extends JFrame {
         gameStarted = false;
     }
 }
-
-

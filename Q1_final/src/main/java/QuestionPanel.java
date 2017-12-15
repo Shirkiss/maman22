@@ -3,18 +3,20 @@ package main.java;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
- * Created by shir.cohen on 12/8/2017.
+ * QuestionPanel.java
+ * Purpose: Create a panel specific for choice questions
+ *
+ * @author Shir Cohen
  */
-public class QuestionPanel extends JPanel {
+class QuestionPanel extends JPanel {
 
     private ChoiceQuestion question;
     private ButtonGroup buttonGroup = null;
-
 
     QuestionPanel(ChoiceQuestion question) {
         this.question = question;
@@ -47,26 +49,12 @@ public class QuestionPanel extends JPanel {
         this.buttonGroup = bg;
 
         add(guesses);
-
     }
 
     ButtonGroup getButtonGroup() {
         return buttonGroup;
     }
-
-    protected ChoiceQuestion getQuestion() {
+    ChoiceQuestion getQuestion() {
         return question;
     }
-
-
-    protected class ActionHandler implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            getQuestion().setUserResponse(e.getActionCommand());
-        }
-
-    }
-
-
 }
